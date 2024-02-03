@@ -416,6 +416,7 @@ class Hotel{
         int i, q;
         char wish; 
         try{
+            if(isRoomBooked(rn, rtype)){
             System.out.println("\n==========\n    Menu : \n\n1. Sandwich\tRs.100\n2.Pizza\tRs.180\n3.Coke\tRs.50\n4.Brownie with Ice Cream\tRs.150");
             do{
                 i = sc.nextInt();
@@ -434,12 +435,30 @@ class Hotel{
                     System.out.println("\nDo you want to order anything else ? (y/n)");
                     wish = sc.next().charAt(0);
             }while(wish == 'y' || wish == 'Y');
-        }
-        catch (NullPointerException e){
+        }else{
+            System.out.println("\nThis Room is not booked, so can't order food for that room.");
+            }
+        }catch (NullPointerException e){
             System.out.println("\nRoom not Booked");
         }
         catch(Exception e){
             System.out.println("\nCannot be done");
+        }
+    }
+  
+// The method isRoomBooked checks  whether a particular room while ordering food has been booked or not.
+    static boolean isRoomBooked(int rn, int rtype){
+        switch (rtype) {
+            case 1:
+                return hotel_ob.luxury_doubleroom[rn] != null;
+            case 2:
+                return hotel_ob.deluxe_doubleroom[rn] != null;
+            case 3:
+                return hotel_ob.luxury_singleroom[rn] != null;
+            case 4:
+                return hotel_ob.deluxe_singleroom[rn] != null;
+            default:
+                return false;
         }
     }
 }
