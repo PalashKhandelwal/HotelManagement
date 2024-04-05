@@ -260,79 +260,73 @@ class Hotel{
     }
 
     //Bill Amount to Generate on the basis of Room and Food
-    static void Bill(int rn, int rtype){
-        double amt = 0;
-        String list[] = {"Sandwich", "Pizza", "Coke", "Brownie with Ice Cream"};
+    static void Bill(int rn, int rtype) {
+        double roomCharge = 0;
+        double foodCharge = 0;
+        String[] list = {"Sandwich", "Pizza", "Coke", "Brownie with Ice Cream"};
+    
         System.out.println("\n**********");
-        System.out.println("\nBill :- ");
-        System.out.println("\n**********");
-
-        switch(rtype){
-            case 1 : 
-                amt += 4000;
-                    System.out.println("\nRoom Charge - "+4000);
-                    System.out.println("\n================");
-                    System.out.println("\nFood Charges - ");;
-                    System.out.println("\n================");
-                    System.out.println("\nItem Quantity Price - ");
-                    System.out.println("\n-------------------------");
-                    for(Food f:hotel_ob.luxury_doubleroom[rn].food ){
-                        amt += f.price;
-                        String format = "%-10s%-10s%-10s%n";
-                        System.out.printf(format, list[f.itemNo-1], f.quantity, f.price);
-                    }
+        System.out.println("Bill :-");
+        System.out.println("**********");
+    
+        // Calculate room charge based on room type
+        switch (rtype) {
+            case 1:
+                roomCharge = 4000; // Room charge for luxury double room
                 break;
-            
-            case 2 : 
-                amt += 3000;
-                    System.out.println("Room Charge - "+3000);
-                    System.out.println("\nFood Charges:- ");
-                    System.out.println("===============");
-                     System.out.println("Item   Quantity    Price");
-                    System.out.println("-------------------------");
-                    for(Food obb:hotel_ob.deluxe_doubleroom[rn].food)
-                    {
-                        amt+=obb.price;
-                        String format = "%-10s%-10s%-10s%n";
-                        System.out.printf(format,list[obb.itemNo-1],obb.quantity,obb.price );
-                    }
+            case 2:
+                roomCharge = 3000; // Room charge for deluxe double room
                 break;
-
             case 3:
-                amt+=2200;
-                    System.out.println("Room Charge - "+2200);
-                    System.out.println("\nFood Charges:- ");
-                    System.out.println("===============");
-                    System.out.println("Item   Quantity    Price");
-                    System.out.println("-------------------------");
-
-                    for(Food obb:hotel_ob.luxury_singleroom[rn].food)
-                    {
-                        amt+=obb.price;
-                        String format = "%-10s%-10s%-10s%n";
-                        System.out.printf(format,list[obb.itemNo-1],obb.quantity,obb.price );
-                    }
+                roomCharge = 2200; // Room charge for luxury single room
                 break;
-
             case 4:
-                amt+=1200;
-                    System.out.println("Room Charge - "+1200);
-                    System.out.println("\nFood Charges:- ");
-                    System.out.println("===============");
-                    System.out.println("Item   Quantity    Price");
-                    System.out.println("-------------------------");
-
-                    for(Food obb: hotel_ob.deluxe_singleroom[rn].food)
-                    {
-                        amt+=obb.price;
-                        String format = "%-10s%-10s%-10s%n";
-                        System.out.printf(format,list[obb.itemNo-1],obb.quantity,obb.price );
-                    }
+                roomCharge = 1200; // Room charge for deluxe single room
                 break;
-
-            default : System.out.println("\nNot Valid");
+            default:
+                System.out.println("Invalid room type");
+                return;
         }
+    
+        // Print room charge
+        System.out.println("\nRoom Charge - " + roomCharge);
+    
+        // Calculate food charge by iterating over food items
+        ArrayList<Food> foodList = null;
+        switch (rtype) {
+            case 1:
+                foodList = hotel_ob.luxury_doubleroom[rn].food;
+                break;
+            case 2:
+                foodList = hotel_ob.deluxe_doubleroom[rn].food;
+                break;
+            case 3:
+                foodList = hotel_ob.luxury_singleroom[rn].food;
+                break;
+            case 4:
+                foodList = hotel_ob.deluxe_singleroom[rn].food;
+                break;
+        }
+    
+        // Sum up food charges
+        for (Food f : foodList) {
+            foodCharge += f.price;
+        }
+    
+        // Print food charges
+        System.out.println("\nFood Charges:-");
+        System.out.println("===============");
+        System.out.println("Item\tQuantity\tPrice");
+        System.out.println("-------------------------");
+        for (Food f : foodList) {
+            System.out.printf("%-10s%-10s%-10s%n", list[f.itemNo - 1], f.quantity, f.price);
+        }
+    
+        // Calculate and print total bill amount
+        double totalBill = roomCharge + foodCharge;
+        System.out.println("\nTotal Bill: " + totalBill);
     }
+    
 
     static void DeallocateRooms(int rn, int rtype){
 
@@ -410,6 +404,58 @@ class Hotel{
             default: System.out.println("\nEnter valid option : ");
                 break;
         }
+
+        double roomCharge = 0;
+    double foodCharge = 0;
+
+    // Calculate room charge based on room type
+    switch(rtype) {
+        case 1:
+            roomCharge = 4000; // Room charge for luxury double room
+            break;
+        case 2:
+            roomCharge = 3000; // Room charge for deluxe double room
+            break;
+        case 3:
+            roomCharge = 2200; // Room charge for luxury single room
+            break;
+        case 4:
+            roomCharge = 1200; // Room charge for deluxe single room
+            break;
+        default:
+            System.out.println("Invalid room type");
+            return;
+    }
+
+    // Calculate food charge by iterating over food items
+    ArrayList<Food> foodList = null;
+    switch (rtype) {
+        case 1:
+            foodList = hotel_ob.luxury_doubleroom[rn].food;
+            break;
+        case 2:
+            foodList = hotel_ob.deluxe_doubleroom[rn].food;
+            break;
+        case 3:
+            foodList = hotel_ob.luxury_singleroom[rn].food;
+            break;
+        case 4:
+            foodList = hotel_ob.deluxe_singleroom[rn].food;
+            break;
+    }
+
+    // Sum up food charges
+    for (Food f : foodList) {
+        foodCharge += f.price;
+    }
+
+    // Calculate total bill amount
+    double totalBill = roomCharge + foodCharge;
+
+    // Display room and food charges along with total bill amount
+    System.out.println("Room Charge: " + roomCharge);
+    System.out.println("Food Charges: " + foodCharge);
+    System.out.println("Total Bill: " + totalBill);
     }
 
     static void Order(int rn, int rtype){
